@@ -93,7 +93,7 @@ class _FormRegisterState extends State<FormRegister> {
                 suffixIcon: Icon(
                   Icons.remove_red_eye,
                 ),
-                labelText: 'Senha',
+                labelText: 'Confirmar Senha',
                 border: InputBorder.none,
                 focusedBorder: InputBorder.none,
                 enabledBorder: InputBorder.none,
