@@ -12,7 +12,15 @@ import 'components/logo_image.dart';
 import 'components/register_label.dart';
 import 'components/title_form.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
+  @override
+  _LoginState createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  String nameTest = "";
+  bool loading = false;
+
   @override
   Widget build(BuildContext context) {
     void _irParaTelaRegistro() {
@@ -30,7 +38,6 @@ class Login extends StatelessWidget {
 
     Future<void> _saveTokenOnSession({String response}) async {
       String token = response;
-      print(token);
       final prefs = await SharedPreferences.getInstance();
       final key = 'token';
       final value = token;
@@ -49,15 +56,22 @@ class Login extends StatelessWidget {
     }
 
     void _realizarLogin(String email, String password) async {
+      setState(() {
+        loading = !loading;
+      });
       var user = User(username: email, password: password);
       var responseOfAuthObject = await AuthService()
           .getToken(user)
           .then((value) => value)
           .catchError((e) => {});
 
-      if (responseOfAuthObject.token == null)
+      setState(() {
+        loading = !loading;
+      });
+
+      if (responseOfAuthObject.token == null) {
         _showModalError();
-      else {
+      } else {
         await _saveTokenOnSession(
             response: responseOfAuthObject.token.toString());
         _irParaTelaPrincipal();
@@ -76,7 +90,7 @@ class Login extends StatelessWidget {
               children: <Widget>[
                 LogoImage(),
                 FormTitle(),
-                FormLogin(_realizarLogin),
+                FormLogin(_realizarLogin, loading),
                 RegisterLabel(_irParaTelaRegistro),
               ],
             ),
