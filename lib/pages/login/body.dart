@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gestao_app/models/user.dart';
 import 'package:gestao_app/pages/home/body.dart';
 import 'package:gestao_app/services/auth.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../register/body.dart';
@@ -50,7 +51,21 @@ class _LoginState extends State<Login> {
           builder: (BuildContext bc) {
             return Container(
               height: MediaQuery.of(context).size.height * 0.4,
-              child: Text('Usuário ou senha inválidos'),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Icon(
+                    Icons.error_outline,
+                    size: 80,
+                  ),
+                  Text(
+                    'Usuário ou senha inválidos',
+                    style: GoogleFonts.roboto(
+                      fontSize: 22,
+                    ),
+                  ),
+                ],
+              ),
             );
           });
     }

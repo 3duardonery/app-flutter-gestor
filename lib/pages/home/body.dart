@@ -1,8 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:gestao_app/components/drawer.dart';
 import 'package:gestao_app/models/person.dart';
+import 'package:gestao_app/pages/home/components/welcome.dart';
 import 'package:gestao_app/utils/descrypt_token.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
@@ -48,30 +51,29 @@ class _HomeState extends State<Home> {
     return tokenFromStorage;
   }
 
+  void _logOff() {
+    print('Remover token do storage e sair');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Home'),
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          icon: Icon(Icons.menu),
-          onPressed: () {},
-        ),
+      drawer: DrawerApp(
+        logged: _logged,
+        logOff: _logOff,
       ),
-      drawer: Drawer(
-        key: _scaffoldKey,
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text('Drawer'),
-            ),
-          ],
+      backgroundColor: Color(0xFFF1F0ED),
+      appBar: AppBar(
+        backgroundColor: Color(0xFFF1F0ED),
+        elevation: 0,
+        centerTitle: true,
+        title: Text(
+          'Início',
+          style: GoogleFonts.roboto(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: Colors.grey[500],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -83,10 +85,12 @@ class _HomeState extends State<Home> {
       body: Container(
         child: Column(
           children: [
-            Row(
-              children: [
-                Text('Seja bem-vindo ${_logged?.name}'),
-              ],
+            Padding(
+              padding: EdgeInsets.all(20),
+            ),
+            Welcome(_logged?.name),
+            Padding(
+              padding: EdgeInsets.all(20),
             ),
           ],
         ),
