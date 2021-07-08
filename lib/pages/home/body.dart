@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:gestao_app/components/custom_text_field.dart';
 import 'package:gestao_app/components/drawer.dart';
 import 'package:gestao_app/models/person.dart';
 import 'package:gestao_app/pages/home/components/welcome.dart';
@@ -18,6 +19,8 @@ class _HomeState extends State<Home> {
   Person _logged;
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final emailController = TextEditingController();
 
   @override
   void initState() {
@@ -55,6 +58,29 @@ class _HomeState extends State<Home> {
     print('Remover token do storage e sair');
   }
 
+  void _showModalIncludeAccount() {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (BuildContext bc) {
+          return Container(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            height: MediaQuery.of(context).size.height * 0.4,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomTextField(
+                  emailController: emailController,
+                  title: "Teste",
+                  type: TextInputType.text,
+                )
+              ],
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,7 +103,7 @@ class _HomeState extends State<Home> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => {},
+        onPressed: _showModalIncludeAccount,
         icon: Icon(Icons.playlist_add),
         label: Text('Nova Conta'),
         backgroundColor: Colors.grey,

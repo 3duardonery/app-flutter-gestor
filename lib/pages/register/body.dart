@@ -7,7 +7,7 @@ class Register extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      resizeToAvoidBottomPadding: true,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         iconTheme:
             IconThemeData(color: Color(0xFF6F879E), opacity: 1, size: 20),

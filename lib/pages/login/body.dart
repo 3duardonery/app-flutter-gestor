@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:gestao_app/models/user.dart';
 import 'package:gestao_app/pages/home/body.dart';
@@ -37,6 +35,20 @@ class _LoginState extends State<Login> {
           ));
     }
 
+    Future<void> _getTokenFromSession() async {
+      final prefs = await SharedPreferences.getInstance();
+      final key = 'token';
+      var tokenResult = prefs.getString(key);
+
+      if (tokenResult.isNotEmpty) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Home(),
+            ));
+      }
+    }
+
     Future<void> _saveTokenOnSession({String response}) async {
       String token = response;
       final prefs = await SharedPreferences.getInstance();
@@ -50,13 +62,16 @@ class _LoginState extends State<Login> {
           context: context,
           builder: (BuildContext bc) {
             return Container(
-              height: MediaQuery.of(context).size.height * 0.4,
+              height: MediaQuery.of(context).size.height * 0.3,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
                     Icons.error_outline,
                     size: 80,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 20),
                   ),
                   Text(
                     'Usuário ou senha inválidos',
@@ -84,14 +99,20 @@ class _LoginState extends State<Login> {
         loading = !loading;
       });
 
-      if (responseOfAuthObject.token == null) {
+      if (responseOfAuthObject.data == null) {
         _showModalError();
       } else {
         await _saveTokenOnSession(
-            response: responseOfAuthObject.token.toString());
+            response: responseOfAuthObject.data.token.toString());
         _irParaTelaPrincipal();
       }
     }
+
+    // @override
+    // void initState() {
+    //   super.initState();
+    //   //_getTokenFromSession();
+    // }
 
     return Scaffold(
       backgroundColor: Color(0xFFF1F0ED),
